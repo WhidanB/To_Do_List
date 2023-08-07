@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TaskRepository;
+use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +23,10 @@ class Task
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $due_date = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $added_by = null;
 
     public function getId(): ?int
     {
@@ -60,6 +65,18 @@ class Task
     public function setDueDate(\DateTimeInterface $due_date): static
     {
         $this->due_date = $due_date;
+
+        return $this;
+    }
+
+    public function getAddedBy(): ?User
+    {
+        return $this->added_by;
+    }
+
+    public function setAddedBy(?User $added_by): static
+    {
+        $this->added_by = $added_by;
 
         return $this;
     }
