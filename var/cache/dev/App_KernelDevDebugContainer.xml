@@ -19,6 +19,8 @@
       <parameter key="SecurityBundle">Symfony\Bundle\SecurityBundle\SecurityBundle</parameter>
       <parameter key="MonologBundle">Symfony\Bundle\MonologBundle\MonologBundle</parameter>
       <parameter key="MakerBundle">Symfony\Bundle\MakerBundle\MakerBundle</parameter>
+      <parameter key="WebpackEncoreBundle">Symfony\WebpackEncoreBundle\WebpackEncoreBundle</parameter>
+      <parameter key="StimulusBundle">Symfony\UX\StimulusBundle\StimulusBundle</parameter>
     </parameter>
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
@@ -60,6 +62,14 @@
       <parameter key="MakerBundle" type="collection">
         <parameter key="path">C:\laragon\www\To_Do_List\vendor\symfony\maker-bundle\src</parameter>
         <parameter key="namespace">Symfony\Bundle\MakerBundle</parameter>
+      </parameter>
+      <parameter key="WebpackEncoreBundle" type="collection">
+        <parameter key="path">C:\laragon\www\To_Do_List\vendor\symfony\webpack-encore-bundle\src</parameter>
+        <parameter key="namespace">Symfony\WebpackEncoreBundle</parameter>
+      </parameter>
+      <parameter key="StimulusBundle" type="collection">
+        <parameter key="path">C:\laragon\www\To_Do_List\vendor\symfony\stimulus-bundle</parameter>
+        <parameter key="namespace">Symfony\UX\StimulusBundle</parameter>
       </parameter>
     </parameter>
     <parameter key="kernel.charset">UTF-8</parameter>
@@ -545,6 +555,9 @@
         <argument key="cache.security_token_verifier" type="service" id="cache.security_token_verifier" on-invalid="ignore_uninitialized"/>
         <argument key="monolog.handler.main" type="service" id="monolog.handler.main" on-invalid="ignore_uninitialized"/>
         <argument key="monolog.handler.console" type="service" id="monolog.handler.console" on-invalid="ignore_uninitialized"/>
+        <argument key="webpack_encore.tag_renderer" type="service" id="webpack_encore.tag_renderer" on-invalid="ignore_uninitialized"/>
+        <argument key="cache.webpack_encore" type="service" id="cache.webpack_encore" on-invalid="ignore_uninitialized"/>
+        <argument key="webpack_encore.entrypoint_lookup[_default]" type="service" id="webpack_encore.entrypoint_lookup[_default]" on-invalid="ignore_uninitialized"/>
         <argument key=".debug.http_client" type="service" id=".debug.http_client" on-invalid="ignore_uninitialized"/>
       </argument>
       <argument type="collection">
@@ -628,6 +641,15 @@
           <argument>reset</argument>
         </argument>
         <argument key="monolog.handler.console" type="collection">
+          <argument>reset</argument>
+        </argument>
+        <argument key="webpack_encore.tag_renderer" type="collection">
+          <argument>reset</argument>
+        </argument>
+        <argument key="cache.webpack_encore" type="collection">
+          <argument>reset</argument>
+        </argument>
+        <argument key="webpack_encore.entrypoint_lookup[_default]" type="collection">
           <argument>reset</argument>
         </argument>
         <argument key=".debug.http_client" type="collection">
@@ -795,6 +817,7 @@
         <argument>cache.security_expression_language</argument>
         <argument>cache.security_is_granted_attribute_expression_language</argument>
         <argument>cache.security_token_verifier</argument>
+        <argument>cache.webpack_encore</argument>
       </argument>
       <call method="setName">
         <argument>cache:pool:clear</argument>
@@ -843,6 +866,7 @@
         <argument>cache.security_expression_language</argument>
         <argument>cache.security_is_granted_attribute_expression_language</argument>
         <argument>cache.security_token_verifier</argument>
+        <argument>cache.webpack_encore</argument>
       </argument>
       <call method="setName">
         <argument>cache:pool:delete</argument>
@@ -868,6 +892,7 @@
         <argument>cache.security_expression_language</argument>
         <argument>cache.security_is_granted_attribute_expression_language</argument>
         <argument>cache.security_token_verifier</argument>
+        <argument>cache.webpack_encore</argument>
       </argument>
       <call method="setName">
         <argument>cache:pool:list</argument>
@@ -1540,6 +1565,7 @@
         <argument key="cache.security_expression_language" type="service" id="cache.security_expression_language" on-invalid="ignore_uninitialized"/>
         <argument key="cache.security_is_granted_attribute_expression_language" type="service" id="cache.security_is_granted_attribute_expression_language" on-invalid="ignore_uninitialized"/>
         <argument key="cache.security_token_verifier" type="service" id="cache.security_token_verifier" on-invalid="ignore_uninitialized"/>
+        <argument key="cache.webpack_encore" type="service" id="cache.webpack_encore" on-invalid="ignore_uninitialized"/>
       </argument>
     </service>
     <service id="cache.global_clearer" class="Symfony\Component\HttpKernel\CacheClearer\Psr6CacheClearer" public="true">
@@ -1558,6 +1584,7 @@
         <argument key="cache.security_expression_language" type="service" id="cache.security_expression_language" on-invalid="ignore_uninitialized"/>
         <argument key="cache.security_is_granted_attribute_expression_language" type="service" id="cache.security_is_granted_attribute_expression_language" on-invalid="ignore_uninitialized"/>
         <argument key="cache.security_token_verifier" type="service" id="cache.security_token_verifier" on-invalid="ignore_uninitialized"/>
+        <argument key="cache.webpack_encore" type="service" id="cache.webpack_encore" on-invalid="ignore_uninitialized"/>
       </argument>
     </service>
     <service id="identity_translator" class="Symfony\Component\Translation\IdentityTranslator"/>
@@ -1601,9 +1628,14 @@
       <argument type="service" id=".debug.http_client" on-invalid="null"/>
       <argument>false</argument>
     </service>
+    <service id="assets._version__default" class="Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy">
+      <argument>C:\laragon\www\To_Do_List/public/build/manifest.json</argument>
+      <argument type="service" id=".debug.http_client" on-invalid="null"/>
+      <argument>false</argument>
+    </service>
     <service id="assets._default_package" class="Symfony\Component\Asset\PathPackage">
       <argument></argument>
-      <argument type="service" id="assets.empty_version_strategy"/>
+      <argument type="service" id="assets._version__default"/>
       <argument type="service" id="assets.context"/>
     </service>
     <service id="http_client.transport" class="Symfony\Contracts\HttpClient\HttpClientInterface">
@@ -2059,6 +2091,8 @@
           <argument>C:\laragon\www\To_Do_List\vendor\symfony\security-bundle/translations</argument>
           <argument>C:\laragon\www\To_Do_List\vendor\symfony\monolog-bundle/translations</argument>
           <argument>C:\laragon\www\To_Do_List\vendor\symfony\maker-bundle\src/translations</argument>
+          <argument>C:\laragon\www\To_Do_List\vendor\symfony\webpack-encore-bundle\src/translations</argument>
+          <argument>C:\laragon\www\To_Do_List\vendor\symfony\stimulus-bundle/translations</argument>
         </argument>
         <argument key="cache_vary" type="collection">
           <argument key="scanned_directories" type="collection">
@@ -2076,6 +2110,8 @@
             <argument>C:\laragon\www\To_Do_List\vendor\symfony\security-bundle/translations</argument>
             <argument>C:\laragon\www\To_Do_List\vendor\symfony\monolog-bundle/translations</argument>
             <argument>C:\laragon\www\To_Do_List\vendor\symfony\maker-bundle\src/translations</argument>
+            <argument>C:\laragon\www\To_Do_List\vendor\symfony\webpack-encore-bundle\src/translations</argument>
+            <argument>C:\laragon\www\To_Do_List\vendor\symfony\stimulus-bundle/translations</argument>
           </argument>
         </argument>
       </argument>
@@ -2442,6 +2478,14 @@
         <argument type="collection">
           <argument type="service_closure" id="security.context_listener.0"/>
           <argument>onKernelResponse</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>kernel.exception</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="webpack_encore.exception_listener"/>
+          <argument>onKernelException</argument>
         </argument>
         <argument>0</argument>
       </call>
@@ -2922,6 +2966,14 @@
         <argument type="collection">
           <argument type="service_closure" id="maker.console_error_listener"/>
           <argument>onConsoleTerminate</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>kernel.finish_request</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Symfony\WebpackEncoreBundle\EventListener\ResetAssetsEventListener"/>
+          <argument>resetAssets</argument>
         </argument>
         <argument>0</argument>
       </call>
@@ -4340,6 +4392,10 @@
         <argument>cache.security_token_verifier</argument>
         <argument type="service" id="cache.security_token_verifier"/>
       </call>
+      <call method="addInstance">
+        <argument>cache.webpack_encore</argument>
+        <argument type="service" id="cache.webpack_encore"/>
+      </call>
     </service>
     <service id="cache_pool_clearer.cache_warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\CachePoolClearerCacheWarmer">
       <tag name="kernel.cache_warmer" priority="64"/>
@@ -5280,6 +5336,15 @@
       </call>
       <call method="addExtension">
         <argument type="service" id="twig.extension.webprofiler"/>
+      </call>
+      <call method="addExtension">
+        <argument type="service" id="webpack_encore.twig_entry_files_extension"/>
+      </call>
+      <call method="addExtension">
+        <argument type="service" id="stimulus.ux_controllers_twig_extension"/>
+      </call>
+      <call method="addExtension">
+        <argument type="service" id="stimulus.twig_extension"/>
       </call>
       <call method="addGlobal">
         <argument>app</argument>
@@ -6640,6 +6705,89 @@
       <argument type="service" id="maker.file_manager"/>
       <argument type="service" id="maker.security_config_updater"/>
       <argument type="service" id="maker.security_controller_builder"/>
+    </service>
+    <service id=".1_ServiceLocator~turBXsx" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="webpack_encore.entrypoint_lookup_collection" type="service_closure" id="webpack_encore.entrypoint_lookup_collection"/>
+        <argument key="webpack_encore.tag_renderer" type="service_closure" id="webpack_encore.tag_renderer"/>
+      </argument>
+    </service>
+    <service id="webpack_encore.entrypoint_lookup_collection" class="Symfony\WebpackEncoreBundle\Asset\EntrypointLookupCollection">
+      <argument type="service" id=".service_locator.Yi4Ff.p"/>
+      <argument>_default</argument>
+    </service>
+    <service id="webpack_encore.tag_renderer" class="Symfony\WebpackEncoreBundle\Asset\TagRenderer">
+      <tag name="kernel.reset" method="reset"/>
+      <argument type="service" id="webpack_encore.entrypoint_lookup_collection"/>
+      <argument type="service" id="assets.packages"/>
+      <argument type="collection"/>
+      <argument type="collection">
+        <argument key="defer">true</argument>
+      </argument>
+      <argument type="collection"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="webpack_encore.twig_entry_files_extension" class="Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension">
+      <tag name="twig.extension"/>
+      <argument type="service" id=".1_ServiceLocator~turBXsx"/>
+    </service>
+    <service id="webpack_encore.entrypoint_lookup.cache_warmer" class="Symfony\WebpackEncoreBundle\CacheWarmer\EntrypointCacheWarmer">
+      <tag name="kernel.cache_warmer"/>
+      <argument type="collection">
+        <argument key="_default">C:\laragon\www\To_Do_List/public/build/entrypoints.json</argument>
+      </argument>
+      <argument>C:\laragon\www\To_Do_List\var\cache\dev/webpack_encore.cache.php</argument>
+    </service>
+    <service id="webpack_encore.cache" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" constructor="create">
+      <argument>C:\laragon\www\To_Do_List\var\cache\dev/webpack_encore.cache.php</argument>
+      <argument type="service" id="cache.webpack_encore"/>
+    </service>
+    <service id="cache.webpack_encore" class="Symfony\Component\Cache\Adapter\TraceableAdapter">
+      <tag name="cache.pool"/>
+      <tag name="kernel.reset" method="reset"/>
+      <argument type="service" id="cache.webpack_encore.recorder_inner"/>
+    </service>
+    <service id="webpack_encore.exception_listener" class="Symfony\WebpackEncoreBundle\EventListener\ExceptionListener">
+      <tag name="kernel.event_listener" event="kernel.exception"/>
+      <argument type="service" id="webpack_encore.entrypoint_lookup_collection"/>
+      <argument type="collection">
+        <argument>_default</argument>
+      </argument>
+    </service>
+    <service id="Symfony\WebpackEncoreBundle\EventListener\ResetAssetsEventListener" class="Symfony\WebpackEncoreBundle\EventListener\ResetAssetsEventListener">
+      <tag name="kernel.event_subscriber"/>
+      <tag name="container.hot_path"/>
+      <argument type="service" id="webpack_encore.entrypoint_lookup_collection"/>
+      <argument type="collection">
+        <argument>_default</argument>
+      </argument>
+    </service>
+    <service id="webpack_encore.entrypoint_lookup[_default]" class="Symfony\WebpackEncoreBundle\Asset\EntrypointLookup">
+      <tag name="kernel.reset" method="reset"/>
+      <argument>C:\laragon\www\To_Do_List/public/build/entrypoints.json</argument>
+      <argument>null</argument>
+      <argument>_default</argument>
+      <argument>true</argument>
+    </service>
+    <service id=".service_locator.Yi4Ff.p" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="_default" type="service_closure" id="webpack_encore.entrypoint_lookup[_default]"/>
+      </argument>
+    </service>
+    <service id="stimulus.helper" class="Symfony\UX\StimulusBundle\Helper\StimulusHelper">
+      <argument type="service" id="twig" on-invalid="null"/>
+    </service>
+    <service id="stimulus.twig_extension" class="Symfony\UX\StimulusBundle\Twig\StimulusTwigExtension">
+      <tag name="twig.extension" priority="-10"/>
+      <argument type="service" id="stimulus.helper"/>
+    </service>
+    <service id="stimulus.asset_mapper.ux_package_reader" class="Symfony\UX\StimulusBundle\Ux\UxPackageReader">
+      <argument>C:\laragon\www\To_Do_List</argument>
+    </service>
+    <service id="stimulus.ux_controllers_twig_extension" class="Symfony\UX\StimulusBundle\Twig\UxControllersTwigExtension">
+      <tag name="twig.extension"/>
     </service>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\AccueilController" class="App\Controller\AccueilController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\AccueilController" class="App\Controller\AccueilController" autowire="true" abstract="true"/>
@@ -8963,6 +9111,14 @@
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
+    <service id="cache.webpack_encore.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
+      <argument>26PE7GoM2p</argument>
+      <argument>0</argument>
+      <argument>%container.build_id%</argument>
+      <argument>C:\laragon\www\To_Do_List\var\cache\dev/pools/system</argument>
+      <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
+      <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
+    </service>
     <service id=".service_locator.pTeli0u" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -9120,6 +9276,8 @@
     <service id="Symfony\Component\Security\Core\User\UserCheckerInterface" alias="security.user_checker"/>
     <service id="logger" alias="monolog.logger"/>
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
+    <service id="Symfony\WebpackEncoreBundle\Asset\EntrypointLookupCollectionInterface" alias="webpack_encore.entrypoint_lookup_collection"/>
+    <service id="Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface" alias="webpack_encore.entrypoint_lookup[_default]"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.7nzbL4K" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
     <service id="argument_resolver.controller_locator" alias=".service_locator.s8qIlXB"/>
@@ -9142,6 +9300,7 @@
     <service id="Psr\Log\LoggerInterface $deprecationLogger" alias="monolog.logger.deprecation"/>
     <service id=".service_locator.80edgLI" alias="messenger.receiver_locator"/>
     <service id=".service_locator.h8Jkkd2" alias="messenger.retry_strategy_locator"/>
+    <service id=".service_locator.XDGmiR3" alias=".1_ServiceLocator~turBXsx"/>
     <service id=".service_locator.o.uf2zi" alias=".service_locator.7nzbL4K"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
     <service id=".service_locator.O6OaqSf" alias=".service_locator.SMj1Mmo"/>

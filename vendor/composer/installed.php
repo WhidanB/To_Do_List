@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => 'a92745830ed6c990fcd42137554ab68b34f4af14',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'c383733644dbea2222d07fcb0da5aa471bfd12fe',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => 'a92745830ed6c990fcd42137554ab68b34f4af14',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'c383733644dbea2222d07fcb0da5aa471bfd12fe',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1136,6 +1136,15 @@
                 0 => '1.1|2.0|3.0',
             ),
         ),
+        'symfony/stimulus-bundle' => array(
+            'pretty_version' => 'v2.10.0',
+            'version' => '2.10.0.0',
+            'reference' => '257ef052bebe491d7c29e9a4a8009edb82269e15',
+            'type' => 'symfony-bundle',
+            'install_path' => __DIR__ . '/../symfony/stimulus-bundle',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'symfony/stopwatch' => array(
             'pretty_version' => 'v6.3.0',
             'version' => '6.3.0.0',
@@ -1240,6 +1249,15 @@
             'install_path' => __DIR__ . '/../symfony/web-profiler-bundle',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'symfony/webpack-encore-bundle' => array(
+            'pretty_version' => 'v2.0.1',
+            'version' => '2.0.1.0',
+            'reference' => '150fe022740fef908f4ca3d5950ce85ab040ec76',
+            'type' => 'symfony-bundle',
+            'install_path' => __DIR__ . '/../symfony/webpack-encore-bundle',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'symfony/yaml' => array(
             'pretty_version' => 'v6.3.3',

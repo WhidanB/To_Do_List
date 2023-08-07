@@ -39,6 +39,8 @@ class ComposerStaticInit05a3e56c18fe2670ac3543ad4dfdeefb
         ),
         'S' => 
         array (
+            'Symfony\\WebpackEncoreBundle\\' => 28,
+            'Symfony\\UX\\StimulusBundle\\' => 26,
             'Symfony\\Runtime\\Symfony\\Component\\' => 34,
             'Symfony\\Polyfill\\Php83\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -171,6 +173,14 @@ class ComposerStaticInit05a3e56c18fe2670ac3543ad4dfdeefb
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Symfony\\WebpackEncoreBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/webpack-encore-bundle/src',
+        ),
+        'Symfony\\UX\\StimulusBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/stimulus-bundle/src',
         ),
         'Symfony\\Runtime\\Symfony\\Component\\' => 
         array (
