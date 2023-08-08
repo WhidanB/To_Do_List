@@ -1,11 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Task{% endblock %}
+{% block title %}View Task{% endblock %}
 
 {% block body %}
-    <h1>Task</h1>
+    <h1>View Task</h1>
 
-    <table class="table">
+    <section class="vh-100" style="background-color: #eee;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-12 col-xl-10">
+
+        <div class="card">
+          <div class="card-header p-3">
+            <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Task List</h5>
+          </div>
+          <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px">
+
+
+    <table class="table mb-0">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -26,9 +38,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_task_index') }}">back to list</a>
+    <a href="{{ path('app_task_index') }}"><button class="btn btn-primary">back to list</button></a>
 
-    <a href="{{ path('app_task_edit', {'id': task.id}) }}">edit</a>
+    <a href="{{ path('app_task_edit', {'id': task.id}) }}"><button type="button" class="btn btn-warning">edit</button></a>
 
     {{ include('task/_delete_form.html.twig') }}
 {% endblock %}
