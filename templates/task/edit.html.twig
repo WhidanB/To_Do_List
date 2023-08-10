@@ -1,28 +1,35 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Edit Task{% endblock %} {% block
+body %}
+<nav class="d-flex justify-content-around align-items-center">
+  <h1>Edit Task</h1>
+  <a class="deco h-100" href="/logout"
+    ><button type="button" class="btn btn-danger">logout</button></a
+  >
+</nav>
 
-{% block title %}Edit Task{% endblock %}
-
-{% block body %}
-    <h1>Edit Task</h1>
-
-     <section class="vh-100" style="background-color: #eee;">
+<section class="vh-100" style="background-color: #eee">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-12 col-xl-10">
-
+      <div class="col-md-8 col-xl-10">
         <div class="card">
-          <div class="card-header p-3">
+          <div class="card-header p-3 d-flex justify-content-between align-items-center ">
             <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Edit Task</h5>
+            <a href="{{ path('app_task_index') }}"
+              ><button class="btn btn-primary">back to list</button></a
+            >
           </div>
-          <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px">
+          <div
+            class="card-body"
+            data-mdb-perfect-scrollbar="true"
+            style="position: relative; height: 400px"
+          >
+            {{ include("task/_form.html.twig", { button_label: "Update" }) }}
 
-
-
-    {{ include('task/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_task_index') }}"><button class="btn btn-primary">back to list</button></a>
-
-    {{ include('task/_delete_form.html.twig') }}
-
-  
+            {{ include("task/_delete_form.html.twig") }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
