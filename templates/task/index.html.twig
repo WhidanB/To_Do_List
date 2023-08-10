@@ -9,7 +9,7 @@ block body %}
 </nav>
 
 <section class="vh-100" style="background-color: #eee">
-  <div class="container py-5 h-100">
+  <div class="container py-5 h-60">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-md-12 col-xl-10">
       <h1>Bienvenue, {{ app.user.pseudo }}</h1>
@@ -27,6 +27,8 @@ block body %}
                 <tr>
                   <th scope="col">Nom</th>
                   <th scope="col">Date de fin</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Priority</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
@@ -35,6 +37,8 @@ block body %}
                 <tr>
                   <td>{{ task.name }}</td>
                   <td>{{ task.dueDate ? task.dueDate|date('Y-m-d') : '' }}</td>
+                   <td>{{ task.status }}</td>
+                    <td>{{ task.priority }}</td>
                   <td>
                     <a href="{{ path('app_task_show', { id: task.id }) }}"
                       ><button class="btn btn-primary">show</button></a

@@ -28,6 +28,16 @@ class Task
     #[ORM\JoinColumn(nullable: false)]
     private ?User $added_by = null;
 
+  
+    #[ORM\Column(length: 255, nullable: true)]
+     private $status;
+
+     #[ORM\Column(length: 255, nullable: true)]
+     private $priority;
+    
+      
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -80,4 +90,31 @@ class Task
 
         return $this;
     }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getpriority(): ?string
+    {
+        return $this->priority;
+    }
+
+    public function setpriority(string $priority): self
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+
+
 }
