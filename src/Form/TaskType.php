@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Task;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,10 +31,7 @@ class TaskType extends AbstractType
                     'Medium' => 'Medium',
                     'Low' => 'Low',
                 ],
-            ])
-
-
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

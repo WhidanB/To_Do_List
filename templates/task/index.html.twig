@@ -12,7 +12,7 @@ block body %}
   <div class="container py-5 h-60">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-md-12 col-xl-10">
-      <h1>Bienvenue, {{ app.user.pseudo }}</h1>
+        <h1>Bienvenue, {{ app.user.pseudo }}</h1>
         <div class="card">
           <div class="card-header p-3">
             <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Task List</h5>
@@ -37,12 +37,13 @@ block body %}
                 <tr>
                   <td>{{ task.name }}</td>
                   <td>{{ task.dueDate ? task.dueDate|date('Y-m-d') : '' }}</td>
-                   <td>{{ task.status }}</td>
-                    <td>{{ task.priority }}</td>
+                  <td>{{ task.status }}</td>
+                  <td>{{ task.priority }}</td>
                   <td>
                     <a href="{{ path('app_task_show', { id: task.id }) }}"
                       ><button class="btn btn-primary">show</button></a
                     >
+                  {% if task.getAddedBy == app.user.getEmail %}
                     <a href="{{ path('app_task_edit', { id: task.id }) }}"
                       ><button class="btn btn-warning">edit</button></a
                     >
@@ -50,6 +51,8 @@ block body %}
                       ><button class="btn btn-danger">Supprimer</button></a
                     >
                   </td>
+
+                  {% endif %}
                 </tr>
                 {% else %}
                 <tr>
