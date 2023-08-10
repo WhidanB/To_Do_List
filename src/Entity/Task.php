@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
 {
@@ -24,7 +25,7 @@ class Task
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $due_date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    #[ORM\ManyToOne(targetEntity:User::class, inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $added_by = null;
 
@@ -84,7 +85,7 @@ class Task
         return $this->added_by;
     }
 
-    public function setAddedBy(?User $added_by): static
+    public function setAddedBy(?User $added_by) :self
     {
         $this->added_by = $added_by;
 

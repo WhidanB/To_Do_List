@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %} {% block title %}Task index{% endblock %} {%
 block body %}
+ {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+{% endfor %}
 
 <nav class="d-flex justify-content-around align-items-center">
   <H1>To do list</H1>
@@ -8,6 +13,7 @@ block body %}
   >
 </nav>
 
+     
 <section class="vh-100" style="background-color: #eee">
   <div class="container py-5 h-60">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -20,7 +26,7 @@ block body %}
           <div
             class="card-body"
             data-mdb-perfect-scrollbar="true"
-            style="position: relative; height: 400px"
+            style="position: relative; height: 500px"
           >
             <table class="table mb-0">
               <thead>
@@ -34,11 +40,11 @@ block body %}
               </thead>
               <tbody>
                 {% for task in tasks %}
-                <tr>
-                  <td>{{ task.name }}</td>
-                  <td>{{ task.dueDate ? task.dueDate|date('Y-m-d') : '' }}</td>
-                  <td>{{ task.status }}</td>
-                  <td>{{ task.priority }}</td>
+                <tr class="fw-normal">
+                  <td class="align-middle">{{ task.name }}</td>
+                  <td class="align-middle">{{ task.dueDate ? task.dueDate|date('Y-m-d') : '' }}</td>
+                  <td class="align-middle">{{ task.status }}</td>
+                  <td class="align-middle">{{ task.priority }}</td>
                   <td>
                     <a href="{{ path('app_task_show', { id: task.id }) }}"
                       ><button class="btn btn-primary">show</button></a
@@ -55,7 +61,7 @@ block body %}
                   {% endif %}
                 </tr>
                 {% else %}
-                <tr>
+                <tr class="fw-normal">
                   <td colspan="5">Pas de tâche en cours</td>
                 </tr>
                 {% endfor %}
@@ -71,4 +77,10 @@ block body %}
     </div>
   </div>
 </section>
+
+<style>
+.urgent{
+  color: red;
+}
+</style>
 {% endblock %}
