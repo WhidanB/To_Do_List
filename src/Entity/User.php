@@ -34,6 +34,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'added_by', targetEntity: Task::class, orphanRemoval: true)]
     private Collection $tasks;
 
+    #[ORM\Column(length: 255)]
+    private ?string $Pseudo = null;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -140,6 +143,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $task->setAddedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->Pseudo;
+    }
+
+    public function setPseudo(string $Pseudo): static
+    {
+        $this->Pseudo = $Pseudo;
 
         return $this;
     }
