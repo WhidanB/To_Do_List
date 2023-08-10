@@ -13,7 +13,7 @@ class LoginController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('/task');
+            return $this->redirectToRoute('app_task_index');
         }
 
         // get the login error if there is one
