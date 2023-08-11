@@ -91,21 +91,28 @@ class TaskController extends AbstractController
     {
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
+            $taskDate = $task->getDueDate(); // Replace with the appropriate method for your Task entity
+            $today = new \DateTime('today');
+    
+            if ($taskDate < $today) {
+                $this->addFlash('danger', 'La date ne peut pas être antérieure à aujourd\'hui.');
+                return $this->redirectToRoute('app_task_edit', ['id' => $task->getId()]); // Redirect with an error message
+            }
+    
             $entityManager->flush();
-
-            $this->addFlash('success', 'la tâche a bien été modifiée');
-
+    
+            $this->addFlash('success', 'La tâche a bien été modifiée');
+    
             return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->render('task/edit.html.twig', [
             'task' => $task,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
-
     #[Route('/{id}', name: 'app_task_delete', methods: ['POST'])]
     public function delete(Request $request, Task $task, EntityManagerInterface $entityManager): Response
     {

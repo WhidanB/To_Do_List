@@ -1,5 +1,11 @@
 {% extends 'base.html.twig' %} {% block title %}Edit Task{% endblock %} {% block
 body %}
+
+ {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+{% endfor %}
 <nav class="d-flex justify-content-around align-items-center">
   <h1>Edit Task</h1>
   <a class="deco h-100" href="/logout"
