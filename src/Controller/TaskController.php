@@ -55,6 +55,15 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $taskDate = $task->getDueDate(); 
+            $today = new \DateTime('today');
+
+            if ($taskDate < $today) {
+                $this->addFlash('danger', 'La date ne peut pas être antérieure à aujourd\'hui.');
+                return $this->redirectToRoute('app_task_new'); 
+            }
+
             $entityManager->persist($task);
             $entityManager->flush();
 
