@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/task')]
 class TaskController extends AbstractController
@@ -23,9 +24,12 @@ class TaskController extends AbstractController
     }
 
     #[Route('/new', name: 'app_task_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
         $task = new Task();
+        $user = $security->getUser();
+        $task->setAddedBy($user);
+
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 

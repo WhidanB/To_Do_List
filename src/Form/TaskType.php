@@ -18,6 +18,10 @@ class TaskType extends AbstractType
             ->add('description')
             ->add('due_date')
             ->add('added_by')
+            ->add('added_by', null, [
+                'disabled' => true, 
+            ])
+
             ->add('status', ChoiceType::class, [
                 'choices'  => [
                     'A faire' => 'A faire',
@@ -31,6 +35,8 @@ class TaskType extends AbstractType
                     'Medium' => 'Medium',
                     'Low' => 'Low',
                 ],
+
+                
             ]);
     }
 
