@@ -18,11 +18,32 @@ class TaskController extends AbstractController
     #[Route('/', name: 'app_task_index', methods: ['GET'])]
     public function index(TaskRepository $taskRepository): Response
     {
+       
+        $tasks = $taskRepository->findAll();
+    
+       
+        usort($tasks, function ($a, $b) {
+            $statusOrder = ['A faire', 'En cours', 'Terminée'];
+            return array_search($a->getStatus(), $statusOrder) - array_search($b->getStatus(), $statusOrder);
+        });
+
+        usort($tasks, function ($a, $b) {
+            $statusOrder = ['A faire', 'En cours', 'Terminée'];
+            $priorityOrder = ['Urgent', 'Medium', 'Low'];
+    
+            $statusComparison = array_search($a->getStatus(), $statusOrder) - array_search($b->getStatus(), $statusOrder);
+            if ($statusComparison !== 0) {
+                return $statusComparison;
+            }
+    
+            return array_search($a->getPriority(), $priorityOrder) - array_search($b->getPriority(), $priorityOrder);
+        });
+    
+    
         return $this->render('task/index.html.twig', [
-            'tasks' => $taskRepository->findAll(),
+            'tasks' => $tasks,
         ]);
     }
-
     #[Route('/new', name: 'app_task_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
